@@ -80,6 +80,57 @@
             font-size: 1rem;
         }
 
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-result-item:hover {
+            background: #f5f5f5;
+        }
+
+        .search-result-item img {
+            width: 40px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .search-result-author {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
         .user-actions a {
             margin-left: 15px;
             color: var(--primary);
@@ -244,6 +295,31 @@
             color: var(--accent);
         }
 
+        /* Search Results Section */
+        .search-results-section {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .search-results-section.active {
+            display: block;
+        }
+
+        .search-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .clear-search {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
         /* Categories */
         .categories {
             background: var(--light);
@@ -263,6 +339,7 @@
             text-align: center;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .category-card:hover {
@@ -398,8 +475,10 @@
                     The Definitive Word
                 </a>
                 <div class="search-bar">
-                    <input type="text" placeholder="Search for books, authors, or categories...">
-                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" id="search-input" placeholder="Search for books, authors, or categories...">
+                    <div class="search-results" id="search-results">
+                        <!-- Search results will appear here -->
+                    </div>
                 </div>
                 <div class="user-actions">
                     <a href="#"><i class="fas fa-user"></i></a>
@@ -413,12 +492,12 @@
         <nav>
             <div class="container">
                 <ul>
-                    <li><a href="#">Fiction</a></li>
-                    <li><a href="#">Non-Fiction</a></li>
-                    <li><a href="#">Science</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Self-Help</a></li>
+                    <li><a href="#" data-category="Fiction">Fiction</a></li>
+                    <li><a href="#" data-category="Non-Fiction">Non-Fiction</a></li>
+                    <li><a href="#" data-category="Science">Science</a></li>
+                    <li><a href="#" data-category="Technology">Technology</a></li>
+                    <li><a href="#" data-category="Business">Business</a></li>
+                    <li><a href="#" data-category="Self-Help">Self-Help</a></li>
                 </ul>
             </div>
         </nav>
@@ -434,8 +513,21 @@
         </div>
     </section>
 
+    <!-- Search Results Section -->
+    <section class="search-results-section" id="search-results-section">
+        <div class="container">
+            <div class="search-info">
+                <h2 id="search-results-title">Search Results</h2>
+                <button class="clear-search" id="clear-search">Show All Books</button>
+            </div>
+            <div class="books-grid" id="search-results-books">
+                <!-- Search results books will appear here -->
+            </div>
+        </div>
+    </section>
+
     <!-- Featured Books -->
-    <section class="container">
+    <section class="container" id="featured-section">
         <h2 class="section-title">Featured Books</h2>
         <div class="books-grid" id="featured-books">
             <!-- Books will be loaded by JavaScript -->
@@ -447,22 +539,22 @@
         <div class="container">
             <h2 class="section-title">Browse Categories</h2>
             <div class="categories-grid">
-                <div class="category-card">
+                <div class="category-card" data-category="Science Fiction">
                     <i class="fas fa-rocket"></i>
                     <h3>Science Fiction</h3>
                     <p>Explore other worlds and futures</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card" data-category="Romance">
                     <i class="fas fa-heart"></i>
                     <h3>Romance</h3>
                     <p>Stories of love and connection</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card" data-category="Mystery">
                     <i class="fas fa-user-secret"></i>
                     <h3>Mystery</h3>
                     <p>Unravel puzzles and crimes</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card" data-category="Business">
                     <i class="fas fa-chart-line"></i>
                     <h3>Business</h3>
                     <p>Grow your career and wealth</p>
@@ -522,7 +614,7 @@
     </div>
 
     <script>
-        // Book data
+        // Enhanced book data
         const books = [
             {
                 id: 1,
@@ -531,7 +623,8 @@
                 price: 12.99,
                 originalPrice: 15.99,
                 image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                category: "Mystery"
+                category: "Mystery",
+                description: "A thrilling mystery novel about a quiet observer who witnesses a crime."
             },
             {
                 id: 2,
@@ -540,7 +633,8 @@
                 price: 14.99,
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                category: "Technology"
+                category: "Technology",
+                description: "Exploring the impact of digital technology on modern society."
             },
             {
                 id: 3,
@@ -549,7 +643,8 @@
                 price: 10.99,
                 originalPrice: 12.99,
                 image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                category: "Science Fiction"
+                category: "Science Fiction",
+                description: "A science fiction adventure through time and space."
             },
             {
                 id: 4,
@@ -558,7 +653,48 @@
                 price: 16.99,
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                category: "Business"
+                category: "Business",
+                description: "A guide to mindfulness in business and entrepreneurship."
+            },
+            {
+                id: 5,
+                title: "Business Strategy Fundamentals",
+                author: "Robert Kim",
+                price: 18.99,
+                originalPrice: 22.99,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                category: "Business",
+                description: "Essential strategies for business growth and success."
+            },
+            {
+                id: 6,
+                title: "Romantic Escapades",
+                author: "Emma Thompson",
+                price: 11.99,
+                originalPrice: null,
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                category: "Romance",
+                description: "A heartwarming romance about unexpected love."
+            },
+            {
+                id: 7,
+                title: "Future Technologies",
+                author: "Alex Chen",
+                price: 15.99,
+                originalPrice: 19.99,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                category: "Technology",
+                description: "Exploring emerging technologies and their potential impact."
+            },
+            {
+                id: 8,
+                title: "The Mystery of Hollow Creek",
+                author: "Megan Foster",
+                price: 13.99,
+                originalPrice: null,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                category: "Mystery",
+                description: "A small town with a big secret in this gripping mystery."
             }
         ];
 
@@ -572,32 +708,164 @@
         const cartTotal = document.getElementById('cart-total');
         const cartIcon = document.querySelector('.cart-icon');
 
+        // Search elements
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const searchResultsSection = document.getElementById('search-results-section');
+        const searchResultsBooks = document.getElementById('search-results-books');
+        const searchResultsTitle = document.getElementById('search-results-title');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const featuredSection = document.getElementById('featured-section');
+
         // Display featured books
         const featuredBooksContainer = document.getElementById('featured-books');
         
-        books.forEach(book => {
-            const bookCard = document.createElement('div');
-            bookCard.className = 'book-card';
+        function displayBooks(booksArray, container) {
+            container.innerHTML = '';
             
-            const priceHTML = book.originalPrice 
-                ? `<div class="price"><span class="original-price">$${book.originalPrice}</span> <span class="sale-price">$${book.price}</span></div>`
-                : `<div class="price">$${book.price}</div>`;
+            if (booksArray.length === 0) {
+                container.innerHTML = '<p>No books found</p>';
+                return;
+            }
             
-            bookCard.innerHTML = `
-                <div class="book-cover">
-                    <img src="${book.image}" alt="${book.title}">
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">${book.title}</h3>
-                    <p class="book-author">by ${book.author}</p>
-                    <div class="book-price">
-                        ${priceHTML}
-                        <button class="btn add-to-cart" data-id="${book.id}">Add to Cart</button>
+            booksArray.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                
+                const priceHTML = book.originalPrice 
+                    ? `<div class="price"><span class="original-price">$${book.originalPrice}</span> <span class="sale-price">$${book.price}</span></div>`
+                    : `<div class="price">$${book.price}</div>`;
+                
+                bookCard.innerHTML = `
+                    <div class="book-cover">
+                        <img src="${book.image}" alt="${book.title}">
                     </div>
-                </div>
-            `;
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">by ${book.author}</p>
+                        <div class="book-price">
+                            ${priceHTML}
+                            <button class="btn add-to-cart" data-id="${book.id}">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(bookCard);
+            });
+        }
+
+        // Initial display of featured books
+        displayBooks(books, featuredBooksContainer);
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query.trim()) {
+                // If query is empty, show all books
+                searchResultsSection.classList.remove('active');
+                featuredSection.style.display = 'block';
+                return;
+            }
             
-            featuredBooksContainer.appendChild(bookCard);
+            const lowerQuery = query.toLowerCase();
+            
+            // Filter books based on search query
+            const filteredBooks = books.filter(book => 
+                book.title.toLowerCase().includes(lowerQuery) ||
+                book.author.toLowerCase().includes(lowerQuery) ||
+                book.category.toLowerCase().includes(lowerQuery) ||
+                book.description.toLowerCase().includes(lowerQuery)
+            );
+            
+            // Update UI with search results
+            searchResultsTitle.textContent = `Search Results for "${query}" (${filteredBooks.length} books found)`;
+            displayBooks(filteredBooks, searchResultsBooks);
+            
+            // Show search results section, hide featured section
+            searchResultsSection.classList.add('active');
+            featuredSection.style.display = 'none';
+            
+            // Hide the dropdown search results
+            searchResults.classList.remove('active');
+        }
+
+        // Real-time search suggestions
+        function showSearchSuggestions(query) {
+            if (!query.trim()) {
+                searchResults.classList.remove('active');
+                return;
+            }
+            
+            const lowerQuery = query.toLowerCase();
+            const matchedBooks = books.filter(book => 
+                book.title.toLowerCase().includes(lowerQuery) ||
+                book.author.toLowerCase().includes(lowerQuery)
+            ).slice(0, 5); // Limit to 5 suggestions
+            
+            if (matchedBooks.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+            } else {
+                searchResults.innerHTML = matchedBooks.map(book => `
+                    <div class="search-result-item" data-id="${book.id}">
+                        <img src="${book.image}" alt="${book.title}">
+                        <div class="search-result-info">
+                            <div class="search-result-title">${book.title}</div>
+                            <div class="search-result-author">by ${book.author}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            searchResults.classList.add('active');
+        }
+
+        // Event listeners for search
+        searchInput.addEventListener('input', function() {
+            showSearchSuggestions(this.value);
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(this.value);
+            }
+        });
+
+        // Click on search suggestion
+        searchResults.addEventListener('click', function(e) {
+            if (e.target.closest('.search-result-item')) {
+                const item = e.target.closest('.search-result-item');
+                const bookId = parseInt(item.getAttribute('data-id'));
+                const book = books.find(b => b.id === bookId);
+                
+                if (book) {
+                    searchInput.value = book.title;
+                    performSearch(book.title);
+                }
+            }
+        });
+
+        // Clear search
+        clearSearchBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchResultsSection.classList.remove('active');
+            featuredSection.style.display = 'block';
+            searchResults.classList.remove('active');
+        });
+
+        // Category search
+        document.querySelectorAll('.category-card, nav a[data-category]').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.getAttribute('data-category');
+                searchInput.value = category;
+                performSearch(category);
+            });
+        });
+
+        // Close search results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-bar')) {
+                searchResults.classList.remove('active');
+            }
         });
 
         // Add to cart functionality
