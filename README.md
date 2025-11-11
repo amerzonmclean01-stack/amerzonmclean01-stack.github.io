@@ -13,7 +13,9 @@
             --light: #ecf0f1;
             --dark: #2c3e50;
             --success: #2ecc71;
+            --warning: #f39c12;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -104,6 +106,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            transition: var(--transition);
         }
 
         .search-result-item:hover {
@@ -131,13 +134,24 @@
             color: #666;
         }
 
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
         .user-actions a {
             margin-left: 15px;
             color: var(--primary);
             font-size: 1.2rem;
+            transition: var(--transition);
+            position: relative;
         }
 
-        .cart-count {
+        .user-actions a:hover {
+            color: var(--secondary);
+        }
+
+        .cart-count, .wishlist-count {
             background: var(--accent);
             color: white;
             border-radius: 50%;
@@ -152,7 +166,7 @@
             right: -5px;
         }
 
-        .cart-icon {
+        .cart-icon, .wishlist-icon {
             position: relative;
         }
 
@@ -164,6 +178,7 @@
         nav ul {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         nav li {
@@ -173,11 +188,28 @@
         nav a {
             color: white;
             font-weight: 500;
-            transition: all 0.3s ease;
+            padding: 5px 0;
+            transition: var(--transition);
+            position: relative;
         }
 
         nav a:hover {
             color: var(--secondary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         /* Hero Section */
@@ -195,6 +227,12 @@
             margin-bottom: 20px;
         }
 
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
         .btn {
             display: inline-block;
             padding: 12px 25px;
@@ -203,7 +241,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 600;
             margin: 5px;
         }
@@ -211,6 +249,7 @@
         .btn:hover {
             background: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .btn-accent {
@@ -221,11 +260,33 @@
             background: #c0392b;
         }
 
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
         /* Featured Books */
         .section-title {
             text-align: center;
             margin: 50px 0 30px;
             color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background: var(--secondary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .books-grid {
@@ -240,22 +301,77 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            position: relative;
         }
 
         .book-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
         }
 
         .book-cover {
             height: 300px;
             overflow: hidden;
+            position: relative;
         }
 
         .book-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-actions {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .book-card:hover .book-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .action-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: scale(1.1);
         }
 
         .book-info {
@@ -265,6 +381,7 @@
         .book-title {
             font-weight: 600;
             margin-bottom: 5px;
+            font-size: 1.1rem;
         }
 
         .book-author {
@@ -318,6 +435,11 @@
             border-radius: 4px;
             cursor: pointer;
             margin-left: 10px;
+            transition: var(--transition);
+        }
+
+        .clear-search:hover {
+            background: #c0392b;
         }
 
         /* Categories */
@@ -338,7 +460,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: var(--shadow);
-            transition: all 0.3s ease;
+            transition: var(--transition);
             cursor: pointer;
         }
 
@@ -351,6 +473,56 @@
         .category-card i {
             font-size: 2.5rem;
             margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .category-card:hover i {
+            color: white;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background: #c0392b;
         }
 
         /* Footer */
@@ -367,10 +539,121 @@
             margin-bottom: 30px;
         }
 
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
         .copyright {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 20px;
         }
 
         /* Cart Modal */
@@ -382,7 +665,7 @@
             height: 100vh;
             background: white;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: var(--transition);
             z-index: 1100;
             overflow-y: auto;
         }
@@ -399,11 +682,16 @@
             border-bottom: 1px solid #eee;
         }
 
+        .cart-header h2 {
+            color: var(--primary);
+        }
+
         .close-cart {
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
+            color: var(--primary);
         }
 
         .cart-items {
@@ -424,39 +712,84 @@
             margin-right: 15px;
         }
 
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
         .cart-total {
             padding: 20px;
             border-top: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             font-weight: 700;
+            font-size: 1.1rem;
         }
 
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
+        .cart-actions {
+            padding: 0 20px 20px;
         }
 
-        .overlay.active {
-            display: block;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
         }
 
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .header-top {
                 flex-direction: column;
+            }
+            .logo {
+                margin-bottom: 15px;
             }
             .search-bar {
                 margin: 15px 0;
                 max-width: 100%;
             }
+            nav ul {
+                flex-wrap: wrap;
+            }
+            nav li {
+                margin: 5px 10px;
+            }
             .hero h1 {
                 font-size: 2.2rem;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-form input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            .newsletter-form button {
+                border-radius: 4px;
+                padding: 12px;
             }
             .cart-modal {
                 width: 100%;
@@ -481,7 +814,10 @@
                     </div>
                 </div>
                 <div class="user-actions">
-                    <a href="#"><i class="fas fa-user"></i></a>
+                    <a href="#" id="wishlist-icon" class="wishlist-icon">
+                        <i class="fas fa-heart"></i>
+                        <span class="wishlist-count">0</span>
+                    </a>
                     <a href="#" class="cart-icon">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count">0</span>
@@ -509,7 +845,7 @@
             <h1>Discover Your Next Favorite Read</h1>
             <p>Explore thousands of ebooks across all genres. Download instantly and start reading today.</p>
             <a href="#" class="btn btn-accent">Browse Collection</a>
-            <a href="#" class="btn">View Bestsellers</a>
+            <a href="#" class="btn btn-outline">View Bestsellers</a>
         </div>
     </section>
 
@@ -559,7 +895,29 @@
                     <h3>Business</h3>
                     <p>Grow your career and wealth</p>
                 </div>
+                <div class="category-card" data-category="Self-Help">
+                    <i class="fas fa-brain"></i>
+                    <h3>Self-Help</h3>
+                    <p>Improve your life and mindset</p>
+                </div>
+                <div class="category-card" data-category="Technology">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Technology</h3>
+                    <p>Stay ahead in the digital world</p>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter and get the latest book recommendations, exclusive deals, and more.</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
         </div>
     </section>
 
@@ -567,24 +925,42 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div>
+                <div class="footer-column">
                     <h3>The Definitive Word</h3>
-                    <p>Your premier destination for quality ebooks.</p>
+                    <p>Your premier destination for quality ebooks. Discover, read, and enjoy literature in the digital age.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
                 </div>
-                <div>
+                <div class="footer-column">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#">Home</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
-                <div>
+                <div class="footer-column">
                     <h3>Categories</h3>
                     <ul>
                         <li><a href="#">Fiction</a></li>
                         <li><a href="#">Non-Fiction</a></li>
+                        <li><a href="#">Science</a></li>
                         <li><a href="#">Business</a></li>
+                        <li><a href="#">Self-Help</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Knowledge City</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@thedefinitiveword.com</li>
                     </ul>
                 </div>
             </div>
@@ -595,7 +971,6 @@
     </footer>
 
     <!-- Cart Modal -->
-    <div class="overlay" id="overlay"></div>
     <div class="cart-modal" id="cart-modal">
         <div class="cart-header">
             <h2>Your Cart</h2>
@@ -608,10 +983,28 @@
             <span>Total:</span>
             <span id="cart-total">$0.00</span>
         </div>
-        <div class="cart-actions" style="padding: 20px;">
-            <button class="btn btn-accent" style="width: 100%;">Checkout</button>
+        <div class="cart-actions">
+            <button class="btn btn-accent" style="width: 100%;">Proceed to Checkout</button>
         </div>
     </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal" id="wishlist-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Wishlist</h2>
+                <button class="close-modal" data-modal="wishlist-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="wishlist-items">
+                    <!-- Wishlist items will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
     <script>
         // Enhanced book data
@@ -624,7 +1017,8 @@
                 originalPrice: 15.99,
                 image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Mystery",
-                description: "A thrilling mystery novel about a quiet observer who witnesses a crime."
+                description: "A thrilling mystery novel about a quiet observer who witnesses a crime.",
+                badge: "Bestseller"
             },
             {
                 id: 2,
@@ -634,7 +1028,8 @@
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Technology",
-                description: "Exploring the impact of digital technology on modern society."
+                description: "Exploring the impact of digital technology on modern society.",
+                badge: "New"
             },
             {
                 id: 3,
@@ -644,7 +1039,8 @@
                 originalPrice: 12.99,
                 image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Science Fiction",
-                description: "A science fiction adventure through time and space."
+                description: "A science fiction adventure through time and space.",
+                badge: "Sale"
             },
             {
                 id: 4,
@@ -654,7 +1050,8 @@
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Business",
-                description: "A guide to mindfulness in business and entrepreneurship."
+                description: "A guide to mindfulness in business and entrepreneurship.",
+                badge: null
             },
             {
                 id: 5,
@@ -664,7 +1061,8 @@
                 originalPrice: 22.99,
                 image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Business",
-                description: "Essential strategies for business growth and success."
+                description: "Essential strategies for business growth and success.",
+                badge: "Sale"
             },
             {
                 id: 6,
@@ -674,7 +1072,8 @@
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Romance",
-                description: "A heartwarming romance about unexpected love."
+                description: "A heartwarming romance about unexpected love.",
+                badge: "Popular"
             },
             {
                 id: 7,
@@ -684,7 +1083,8 @@
                 originalPrice: 19.99,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Technology",
-                description: "Exploring emerging technologies and their potential impact."
+                description: "Exploring emerging technologies and their potential impact.",
+                badge: "New"
             },
             {
                 id: 8,
@@ -694,19 +1094,27 @@
                 originalPrice: null,
                 image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
                 category: "Mystery",
-                description: "A small town with a big secret in this gripping mystery."
+                description: "A small town with a big secret in this gripping mystery.",
+                badge: "Bestseller"
             }
         ];
 
-        // Cart functionality
+        // Initialize cart and wishlist
         let cart = [];
+        let wishlist = [];
+
+        // DOM Elements
         const cartCount = document.querySelector('.cart-count');
+        const wishlistCount = document.querySelector('.wishlist-count');
         const cartModal = document.getElementById('cart-modal');
+        const wishlistModal = document.getElementById('wishlist-modal');
         const overlay = document.getElementById('overlay');
         const closeCart = document.getElementById('close-cart');
         const cartItems = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
         const cartIcon = document.querySelector('.cart-icon');
+        const wishlistIcon = document.getElementById('wishlist-icon');
+        const wishlistItems = document.getElementById('wishlist-items');
 
         // Search elements
         const searchInput = document.getElementById('search-input');
@@ -717,14 +1125,18 @@
         const clearSearchBtn = document.getElementById('clear-search');
         const featuredSection = document.getElementById('featured-section');
 
-        // Display featured books
-        const featuredBooksContainer = document.getElementById('featured-books');
-        
+        // Display books function
         function displayBooks(booksArray, container) {
             container.innerHTML = '';
             
             if (booksArray.length === 0) {
-                container.innerHTML = '<p>No books found</p>';
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>No books found</h3>
+                        <p>Try adjusting your search or browse our categories</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -736,9 +1148,27 @@
                     ? `<div class="price"><span class="original-price">$${book.originalPrice}</span> <span class="sale-price">$${book.price}</span></div>`
                     : `<div class="price">$${book.price}</div>`;
                 
+                const badgeHTML = book.badge 
+                    ? `<div class="book-badge">${book.badge}</div>` 
+                    : '';
+                
+                // Check if book is in wishlist
+                const isInWishlist = wishlist.some(item => item.id === book.id);
+                const wishlistIconClass = isInWishlist ? 'fas fa-heart' : 'far fa-heart';
+                const wishlistTitle = isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist';
+                
                 bookCard.innerHTML = `
+                    ${badgeHTML}
                     <div class="book-cover">
                         <img src="${book.image}" alt="${book.title}">
+                        <div class="book-actions">
+                            <button class="action-btn add-to-wishlist" data-id="${book.id}" title="${wishlistTitle}">
+                                <i class="${wishlistIconClass}"></i>
+                            </button>
+                            <button class="action-btn quick-view" data-id="${book.id}" title="Quick View">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">${book.title}</h3>
@@ -755,12 +1185,11 @@
         }
 
         // Initial display of featured books
-        displayBooks(books, featuredBooksContainer);
+        displayBooks(books, document.getElementById('featured-books'));
 
         // Search functionality
         function performSearch(query) {
             if (!query.trim()) {
-                // If query is empty, show all books
                 searchResultsSection.classList.remove('active');
                 featuredSection.style.display = 'block';
                 return;
@@ -870,8 +1299,9 @@
 
         // Add to cart functionality
         document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('add-to-cart')) {
-                const bookId = parseInt(e.target.getAttribute('data-id'));
+            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+                const button = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
+                const bookId = parseInt(button.getAttribute('data-id'));
                 const book = books.find(b => b.id === bookId);
                 
                 // Check if book is already in cart
@@ -889,13 +1319,40 @@
                 updateCart();
                 
                 // Show confirmation
-                e.target.textContent = 'Added!';
-                e.target.style.background = 'var(--success)';
+                const originalText = button.textContent;
+                button.textContent = 'Added!';
+                button.style.background = 'var(--success)';
                 
                 setTimeout(() => {
-                    e.target.textContent = 'Add to Cart';
-                    e.target.style.background = '';
+                    button.textContent = originalText;
+                    button.style.background = '';
                 }, 1500);
+            }
+        });
+
+        // Add to wishlist functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-to-wishlist') || e.target.closest('.add-to-wishlist')) {
+                const button = e.target.classList.contains('add-to-wishlist') ? e.target : e.target.closest('.add-to-wishlist');
+                const bookId = parseInt(button.getAttribute('data-id'));
+                const book = books.find(b => b.id === bookId);
+                
+                // Check if book is already in wishlist
+                const existingIndex = wishlist.findIndex(item => item.id === bookId);
+                
+                if (existingIndex !== -1) {
+                    // Remove from wishlist
+                    wishlist.splice(existingIndex, 1);
+                    button.innerHTML = '<i class="far fa-heart"></i>';
+                    button.title = 'Add to Wishlist';
+                } else {
+                    // Add to wishlist
+                    wishlist.push(book);
+                    button.innerHTML = '<i class="fas fa-heart"></i>';
+                    button.title = 'Remove from Wishlist';
+                }
+                
+                updateWishlist();
             }
         });
 
@@ -912,8 +1369,27 @@
             overlay.classList.remove('active');
         });
 
+        // Open wishlist
+        wishlistIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            wishlistModal.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        // Close modals
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                const modalId = this.getAttribute('data-modal');
+                document.getElementById(modalId).classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
         overlay.addEventListener('click', function() {
             cartModal.classList.remove('active');
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
             overlay.classList.remove('active');
         });
 
@@ -927,7 +1403,13 @@
             cartItems.innerHTML = '';
             
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p>Your cart is empty</p>';
+                cartItems.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Add some books to get started</p>
+                    </div>
+                `;
                 cartTotal.textContent = '$0.00';
                 return;
             }
@@ -943,9 +1425,9 @@
                 cartItem.innerHTML = `
                     <img src="${item.image}" alt="${item.title}">
                     <div class="cart-item-details">
-                        <h4>${item.title}</h4>
+                        <h4 class="cart-item-title">${item.title}</h4>
                         <p>by ${item.author}</p>
-                        <div>$${item.price} x ${item.quantity}</div>
+                        <div class="cart-item-price">$${item.price} x ${item.quantity}</div>
                         <button class="cart-item-remove" data-id="${item.id}">Remove</button>
                     </div>
                 `;
@@ -965,8 +1447,72 @@
             });
         }
 
-        // Initialize cart
+        // Update wishlist
+        function updateWishlist() {
+            // Update wishlist count
+            wishlistCount.textContent = wishlist.length;
+            
+            // Update wishlist items
+            wishlistItems.innerHTML = '';
+            
+            if (wishlist.length === 0) {
+                wishlistItems.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <h3>Your wishlist is empty</h3>
+                        <p>Add some books you'd like to save for later</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            wishlist.forEach(book => {
+                const wishlistItem = document.createElement('div');
+                wishlistItem.className = 'cart-item';
+                wishlistItem.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${book.title}</h4>
+                        <p>by ${book.author}</p>
+                        <div class="cart-item-price">$${book.price}</div>
+                        <button class="btn add-to-cart" data-id="${book.id}" style="padding: 5px 10px; font-size: 0.9rem;">Add to Cart</button>
+                        <button class="cart-item-remove remove-from-wishlist" data-id="${book.id}">Remove</button>
+                    </div>
+                `;
+                
+                wishlistItems.appendChild(wishlistItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-from-wishlist').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    wishlist = wishlist.filter(item => item.id !== itemId);
+                    updateWishlist();
+                    
+                    // Also update the heart icons in the book cards
+                    const wishlistButton = document.querySelector(`.add-to-wishlist[data-id="${itemId}"]`);
+                    if (wishlistButton) {
+                        wishlistButton.innerHTML = '<i class="far fa-heart"></i>';
+                        wishlistButton.title = 'Add to Wishlist';
+                    }
+                });
+            });
+        }
+
+        // Newsletter form
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            if (email) {
+                alert(`Thank you for subscribing with: ${email}`);
+                this.reset();
+            }
+        });
+
+        // Initialize
         updateCart();
+        updateWishlist();
     </script>
 </body>
 </html>
