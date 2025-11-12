@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Definitive Word - FULL CONTROL Ebook Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>The Definitive Word - Ebook Store</title>
     <style>
+        /* Simple CSS Variables */
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
             --accent: #e74c3c;
             --light: #ecf0f1;
             --background: #f9f9f9;
-            --text-color: #333;
         }
 
         * {
@@ -24,7 +23,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
+            color: #333;
             background: var(--background);
         }
 
@@ -35,7 +34,7 @@
             padding: 0 15px;
         }
 
-        /* === ADMIN PANEL - ALWAYS VISIBLE === */
+        /* Admin Panel */
         .admin-panel {
             background: #1a252f;
             color: white;
@@ -48,38 +47,24 @@
 
         .admin-controls {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
             align-items: center;
-        }
-
-        .admin-section {
-            background: #2c3e50;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-        }
-
-        .admin-section h4 {
-            margin-bottom: 8px;
-            color: #3498db;
         }
 
         .admin-btn {
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            margin: 2px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
 
         .admin-btn:hover {
             background: #2980b9;
-            transform: translateY(-2px);
         }
 
         .admin-btn.danger {
@@ -88,39 +73,6 @@
 
         .admin-btn.danger:hover {
             background: #c0392b;
-        }
-
-        .admin-btn.success {
-            background: #27ae60;
-        }
-
-        .admin-btn.success:hover {
-            background: #219a52;
-        }
-
-        /* Color Customization */
-        .color-picker {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .color-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .color-option:hover {
-            transform: scale(1.1);
-        }
-
-        .color-option.active {
-            border-color: white;
-            transform: scale(1.1);
         }
 
         /* Header */
@@ -138,21 +90,8 @@
         }
 
         .logo {
-            display: flex;
-            align-items: center;
             font-size: 2rem;
             font-weight: 700;
-        }
-
-        .logo i {
-            color: var(--secondary);
-            margin-right: 10px;
-        }
-
-        .store-title {
-            font-size: 1.5rem;
-            font-weight: 300;
-            opacity: 0.9;
         }
 
         .search-bar {
@@ -187,6 +126,8 @@
         .cart-icon {
             position: relative;
             font-size: 1.3rem;
+            color: white;
+            text-decoration: none;
         }
 
         /* Hero Section */
@@ -198,7 +139,7 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
         }
 
@@ -213,12 +154,11 @@
             font-weight: 600;
             margin: 5px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
 
         .btn:hover {
             background: #c0392b;
-            transform: translateY(-2px);
         }
 
         /* Books Grid */
@@ -234,14 +174,11 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: transform 0.3s;
         }
 
         .book-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border-color: var(--secondary);
         }
 
         .book-cover {
@@ -253,11 +190,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .book-card:hover .book-cover img {
-            transform: scale(1.05);
         }
 
         .book-info {
@@ -327,18 +259,12 @@
             color: var(--primary);
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 10px 15px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            border-color: var(--secondary);
-            outline: none;
         }
 
         /* Cart Modal */
@@ -350,7 +276,7 @@
             height: 100vh;
             background: white;
             box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            transition: right 0.3s ease;
+            transition: right 0.3s;
             z-index: 1100;
             overflow-y: auto;
         }
@@ -425,10 +351,6 @@
             display: block;
         }
 
-        .notification.error {
-            background: #e74c3c;
-        }
-
         @media (max-width: 768px) {
             .admin-controls {
                 flex-direction: column;
@@ -460,55 +382,25 @@
     <!-- Notification -->
     <div class="notification" id="notification"></div>
 
-    <!-- === ADMIN CONTROL PANEL - ALWAYS VISIBLE === -->
+    <!-- Admin Panel -->
     <div class="admin-panel">
         <div class="container">
-            <h3 style="color: #3498db; margin-bottom: 15px; text-align: center;">
-                🎛️ STORE CONTROL PANEL - You're in control!
-            </h3>
-            
             <div class="admin-controls">
-                <!-- Book Management -->
-                <div class="admin-section">
-                    <h4>📚 Book Management</h4>
-                    <button class="admin-btn success" onclick="openModal('addBookModal')">
-                        <i class="fas fa-plus"></i> Add New Book
-                    </button>
-                    <button class="admin-btn" onclick="openModal('bookListModal')">
-                        <i class="fas fa-list"></i> Manage Books
-                    </button>
-                </div>
-
-                <!-- Store Customization -->
-                <div class="admin-section">
-                    <h4>🎨 Store Colors</h4>
-                    <div class="color-picker">
-                        <div class="color-option active" style="background: #2c3e50;" onclick="changeColor('primary', '#2c3e50')"></div>
-                        <div class="color-option" style="background: #3498db;" onclick="changeColor('primary', '#3498db')"></div>
-                        <div class="color-option" style="background: #e74c3c;" onclick="changeColor('primary', '#e74c3c')"></div>
-                        <div class="color-option" style="background: #27ae60;" onclick="changeColor('primary', '#27ae60')"></div>
-                        <div class="color-option" style="background: #8e44ad;" onclick="changeColor('primary', '#8e44ad')"></div>
-                    </div>
-                </div>
-
-                <!-- Store Actions -->
-                <div class="admin-section">
-                    <h4>⚡ Quick Actions</h4>
-                    <button class="admin-btn" onclick="addSampleBooks()">
-                        <i class="fas fa-magic"></i> Add Sample Books
-                    </button>
-                    <button class="admin-btn danger" onclick="resetStore()">
-                        <i class="fas fa-trash"></i> Reset Everything
-                    </button>
-                </div>
-
-                <!-- Store Info -->
-                <div class="admin-section">
-                    <h4>📊 Store Stats</h4>
-                    <div style="color: #ecf0f1; font-size: 0.9rem;">
-                        Books: <span id="bookCount">0</span> | 
-                        Cart: <span id="cartCountDisplay">0</span> items
-                    </div>
+                <button class="admin-btn" onclick="openModal('addBookModal')">
+                    Add New Book
+                </button>
+                <button class="admin-btn" onclick="openModal('bookListModal')">
+                    Manage Books
+                </button>
+                <button class="admin-btn" onclick="addSampleBooks()">
+                    Add Sample Books
+                </button>
+                <button class="admin-btn danger" onclick="resetStore()">
+                    Reset Store
+                </button>
+                <div style="color: #ecf0f1; margin-left: auto;">
+                    Books: <span id="bookCount">0</span> | 
+                    Cart: <span id="cartCountDisplay">0</span>
                 </div>
             </div>
         </div>
@@ -517,46 +409,30 @@
     <!-- Add Book Modal -->
     <div class="modal" id="addBookModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px; color: var(--primary);">📖 Add New Book</h2>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Add New Book</h2>
             <form id="addBookForm">
                 <div class="form-group">
-                    <label>Book Title *</label>
-                    <input type="text" id="bookTitle" required placeholder="Enter an amazing book title">
+                    <label>Book Title</label>
+                    <input type="text" id="bookTitle" required>
                 </div>
                 <div class="form-group">
-                    <label>Author *</label>
-                    <input type="text" id="bookAuthor" required placeholder="Who wrote this book?">
+                    <label>Author</label>
+                    <input type="text" id="bookAuthor" required>
                 </div>
                 <div class="form-group">
-                    <label>Price ($) *</label>
-                    <input type="number" id="bookPrice" step="0.01" required placeholder="9.99">
+                    <label>Price ($)</label>
+                    <input type="number" id="bookPrice" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label>Category</label>
-                    <select id="bookCategory">
-                        <option value="Fiction">Fiction</option>
-                        <option value="Non-Fiction">Non-Fiction</option>
-                        <option value="Business">Business</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Self-Help">Self-Help</option>
-                        <option value="Mystery">Mystery</option>
-                    </select>
+                    <label>Image URL</label>
+                    <input type="url" id="bookImage">
                 </div>
-                <div class="form-group">
-                    <label>Book Description</label>
-                    <textarea id="bookDescription" placeholder="What's this book about?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Cover Image URL</label>
-                    <input type="url" id="bookImage" placeholder="https://example.com/book-cover.jpg">
-                </div>
-                
-                <button type="submit" class="btn" style="width: 100%; margin-top: 15px; background: var(--secondary);">
-                    ✅ ADD BOOK TO STORE
+                <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">
+                    Add Book to Store
                 </button>
             </form>
             <button class="btn" onclick="closeAllModals()" style="width: 100%; margin-top: 10px; background: #666;">
-                ❌ CANCEL
+                Cancel
             </button>
         </div>
     </div>
@@ -564,12 +440,12 @@
     <!-- Book List Modal -->
     <div class="modal" id="bookListModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px; color: var(--primary);">📚 Manage Your Books</h2>
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Manage Books</h2>
             <div id="bookListContent">
                 <!-- Books will be listed here -->
             </div>
             <button class="btn" onclick="closeAllModals()" style="width: 100%; margin-top: 15px; background: #666;">
-                ✅ CLOSE
+                Close
             </button>
         </div>
     </div>
@@ -577,8 +453,8 @@
     <!-- Cart Modal -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-header">
-            <h2>🛒 Your Shopping Cart</h2>
-            <button onclick="closeCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">❌</button>
+            <h2>Your Shopping Cart</h2>
+            <button onclick="closeCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: white;">×</button>
         </div>
         <div class="cart-items" id="cartItems">
             <!-- Cart items will appear here -->
@@ -589,7 +465,7 @@
         </div>
         <div style="padding: 20px;">
             <button class="btn" style="width: 100%;" onclick="checkout()">
-                💳 CHECKOUT NOW
+                Checkout Now
             </button>
         </div>
     </div>
@@ -598,22 +474,15 @@
     <header>
         <div class="container">
             <div class="header-top">
-                <div>
-                    <div class="logo">
-                        <i class="fas fa-book-open"></i>
-                        The Definitive Word
-                    </div>
-                    <div class="store-title">Your Custom Ebook Store</div>
+                <div class="logo">
+                    The Definitive Word
                 </div>
                 <div class="search-bar">
-                    <input type="text" placeholder="🔍 Search books..." onkeypress="handleSearch(event)">
+                    <input type="text" placeholder="Search books..." onkeypress="handleSearch(event)">
                 </div>
-                <div class="user-actions">
-                    <a href="#" class="cart-icon" onclick="openCart()">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count" id="cartCount">0</span>
-                    </a>
-                </div>
+                <a href="#" class="cart-icon" onclick="openCart()">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </a>
             </div>
         </div>
     </header>
@@ -621,10 +490,10 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Welcome to Your Ebook Store! 🎉</h1>
-            <p style="font-size: 1.2rem; margin-bottom: 25px;">Use the control panel above to customize everything!</p>
-            <button class="btn" onclick="showNotification('🚀 Store is fully functional! Try adding books and shopping!')">
-                TEST STORE FEATURES
+            <h1>Welcome to Your Ebook Store</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 25px;">Fully functional ebook store - ready to use!</p>
+            <button class="btn" onclick="showNotification('Store is working! Try adding books.')">
+                Test Store
             </button>
         </div>
     </section>
@@ -632,7 +501,7 @@
     <!-- Books Section -->
     <section class="container">
         <h2 style="text-align: center; margin: 50px 0 30px; color: var(--primary); font-size: 2rem;">
-            📖 Featured Books
+            Featured Books
         </h2>
         <div class="books-grid" id="booksGrid">
             <!-- Books will be loaded here -->
@@ -642,26 +511,24 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>© 2024 The Definitive Word - <strong>FULLY CUSTOMIZABLE EBOOK STORE</strong> 🚀</p>
+            <p>© 2024 The Definitive Word - Fully Functional Ebook Store</p>
         </div>
     </footer>
 
     <script>
-        // ===== STORE DATA =====
+        // Store Data
         let books = JSON.parse(localStorage.getItem('ebookStoreData')) || [];
         let cart = [];
         let cartCount = 0;
 
-        // ===== INITIALIZE STORE =====
+        // Initialize Store
         function initializeStore() {
-            console.log("🔄 Initializing store...");
             displayBooks();
             updateCartDisplay();
             updateStats();
-            showNotification('🎉 Store loaded! Use the control panel to manage your store.');
         }
 
-        // ===== BOOK MANAGEMENT =====
+        // Display Books
         function displayBooks() {
             const booksGrid = document.getElementById('booksGrid');
             booksGrid.innerHTML = '';
@@ -669,12 +536,8 @@
             if (books.length === 0) {
                 booksGrid.innerHTML = `
                     <div style="text-align: center; grid-column: 1 / -1; padding: 60px; color: #666;">
-                        <i class="fas fa-book-open" style="font-size: 4rem; margin-bottom: 20px; display: block; opacity: 0.5;"></i>
-                        <h3 style="margin-bottom: 15px;">No books in your store yet!</h3>
-                        <p style="margin-bottom: 25px;">Click "Add New Book" in the control panel to get started.</p>
-                        <button class="btn" onclick="addSampleBooks()" style="background: var(--secondary);">
-                            🚀 Add Sample Books
-                        </button>
+                        <h3 style="margin-bottom: 15px;">No books in store yet!</h3>
+                        <p>Use the admin panel to add books.</p>
                     </div>
                 `;
                 return;
@@ -690,11 +553,10 @@
                     <div class="book-info">
                         <h3 class="book-title">${book.title}</h3>
                         <p class="book-author">by ${book.author}</p>
-                        ${book.category ? `<p style="color: var(--secondary); font-size: 0.9rem; margin-bottom: 10px;">${book.category}</p>` : ''}
                         <div class="book-price">
                             <span class="price">$${book.price}</span>
                             <button class="btn" onclick="addToCart(${book.id})">
-                                🛒 Add to Cart
+                                Add to Cart
                             </button>
                         </div>
                     </div>
@@ -703,7 +565,7 @@
             });
         }
 
-        // ===== CART FUNCTIONALITY =====
+        // Cart Functions
         function addToCart(bookId) {
             const book = books.find(b => b.id === bookId);
             if (!book) return;
@@ -722,17 +584,6 @@
             updateCartDisplay();
             updateStats();
             
-            // Visual feedback
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '✅ Added!';
-            button.style.background = '#27ae60';
-            
-            setTimeout(() => {
-                button.innerHTML = originalText;
-                button.style.background = '';
-            }, 1500);
-
             showNotification(`"${book.title}" added to cart!`);
         }
 
@@ -747,9 +598,7 @@
             if (cart.length === 0) {
                 cartItems.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #666;">
-                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 15px; display: block; opacity: 0.5;"></i>
                         <p>Your cart is empty</p>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Add some books to get started!</p>
                     </div>
                 `;
                 cartTotal.textContent = '$0.00';
@@ -766,12 +615,12 @@
                 cartItem.innerHTML = `
                     <img src="${item.image}" alt="${item.title}">
                     <div style="flex: 1;">
-                        <h4 style="margin-bottom: 5px; color: var(--primary);">${item.title}</h4>
+                        <h4 style="margin-bottom: 5px;">${item.title}</h4>
                         <p style="color: #666; margin-bottom: 5px;">by ${item.author}</p>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-weight: 600; color: var(--accent);">$${item.price} x ${item.quantity}</span>
-                            <button onclick="removeFromCart(${item.id})" style="background: var(--accent); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
-                                ❌ Remove
+                            <span>$${item.price} x ${item.quantity}</span>
+                            <button onclick="removeFromCart(${item.id})" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                                Remove
                             </button>
                         </div>
                     </div>
@@ -800,12 +649,12 @@
 
         function checkout() {
             if (cart.length === 0) {
-                showNotification('Your cart is empty! Add some books first.', true);
+                showNotification('Your cart is empty!', true);
                 return;
             }
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            showNotification(`🎉 Order placed! Thank you for your purchase of $${total.toFixed(2)}`);
+            showNotification(`Order placed! Total: $${total.toFixed(2)}`);
             cart = [];
             cartCount = 0;
             updateCartDisplay();
@@ -813,7 +662,7 @@
             closeCart();
         }
 
-        // ===== ADMIN FUNCTIONS =====
+        // Admin Functions
         function openModal(modalId) {
             closeAllModals();
             document.getElementById(modalId).classList.add('active');
@@ -834,30 +683,21 @@
             bookListContent.innerHTML = '';
 
             if (books.length === 0) {
-                bookListContent.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <i class="fas fa-book" style="font-size: 3rem; margin-bottom: 15px; display: block; opacity: 0.5;"></i>
-                        <p>No books in your store yet.</p>
-                    </div>
-                `;
+                bookListContent.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">No books in store.</p>';
                 return;
             }
 
             books.forEach(book => {
                 const bookItem = document.createElement('div');
-                bookItem.style.cssText = 'padding: 20px; border: 2px solid #eee; border-radius: 8px; margin-bottom: 15px;';
+                bookItem.style.cssText = 'padding: 15px; border: 1px solid #eee; border-radius: 5px; margin-bottom: 10px;';
                 bookItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: start; gap: 15px;">
-                        <div style="flex: 1;">
-                            <strong style="display: block; margin-bottom: 8px; color: var(--primary); font-size: 1.1rem;">${book.title}</strong>
-                            <div style="color: #666; margin-bottom: 8px;">by ${book.author}</div>
-                            <div style="display: flex; gap: 15px; font-size: 0.9rem;">
-                                <span style="color: var(--accent); font-weight: 600;">$${book.price}</span>
-                                ${book.category ? `<span style="background: var(--secondary); color: white; padding: 2px 8px; border-radius: 10px;">${book.category}</span>` : ''}
-                            </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${book.title}</strong><br>
+                            <small>by ${book.author} - $${book.price}</small>
                         </div>
-                        <button onclick="deleteBook(${book.id})" style="background: var(--accent); color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; white-space: nowrap;">
-                            🗑️ Delete
+                        <button onclick="deleteBook(${book.id})" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                            Delete
                         </button>
                     </div>
                 `;
@@ -865,7 +705,7 @@
             });
         }
 
-        // Add new book form
+        // Add Book Form
         document.getElementById('addBookForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -874,8 +714,6 @@
                 title: document.getElementById('bookTitle').value,
                 author: document.getElementById('bookAuthor').value,
                 price: parseFloat(document.getElementById('bookPrice').value),
-                category: document.getElementById('bookCategory').value,
-                description: document.getElementById('bookDescription').value,
                 image: document.getElementById('bookImage').value || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
             };
 
@@ -886,17 +724,17 @@
             closeAllModals();
             this.reset();
             
-            showNotification(`✅ "${newBook.title}" added to your store!`);
+            showNotification(`"${newBook.title}" added to store!`);
         });
 
         function deleteBook(bookId) {
-            if (confirm('Are you sure you want to delete this book from your store?')) {
+            if (confirm('Delete this book?')) {
                 books = books.filter(book => book.id !== bookId);
                 saveData();
                 displayBooks();
                 updateStats();
                 renderBookList();
-                showNotification('Book deleted from store');
+                showNotification('Book deleted');
             }
         }
 
@@ -907,8 +745,6 @@
                     title: "The Silent Observer",
                     author: "Megan Foster",
                     price: 12.99,
-                    category: "Mystery",
-                    description: "A thrilling mystery about a quiet observer",
                     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 },
                 {
@@ -916,18 +752,7 @@
                     title: "Digital Revolution", 
                     author: "Alex Chen",
                     price: 14.99,
-                    category: "Technology",
-                    description: "Exploring the impact of digital technology",
                     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                    id: Date.now() + 3,
-                    title: "Business Mastery",
-                    author: "Sarah Johnson",
-                    price: 16.99,
-                    category: "Business",
-                    description: "Essential strategies for business success",
-                    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
                 }
             ];
 
@@ -935,11 +760,11 @@
             saveData();
             displayBooks();
             updateStats();
-            showNotification('🎉 Sample books added to your store!');
+            showNotification('Sample books added!');
         }
 
         function resetStore() {
-            if (confirm('⚠️ ARE YOU SURE?\n\nThis will delete ALL books and reset your store to empty. This cannot be undone!')) {
+            if (confirm('Reset entire store?')) {
                 books = [];
                 cart = [];
                 cartCount = 0;
@@ -947,21 +772,8 @@
                 displayBooks();
                 updateCartDisplay();
                 updateStats();
-                showNotification('Store reset successfully');
+                showNotification('Store reset');
             }
-        }
-
-        // ===== CUSTOMIZATION FUNCTIONS =====
-        function changeColor(type, color) {
-            document.documentElement.style.setProperty(`--${type}`, color);
-            
-            // Update active state for color picker
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            showNotification(`🎨 Color theme updated!`);
         }
 
         function updateStats() {
@@ -969,7 +781,7 @@
             document.getElementById('cartCountDisplay').textContent = cartCount;
         }
 
-        // ===== UTILITY FUNCTIONS =====
+        // Utility Functions
         function saveData() {
             localStorage.setItem('ebookStoreData', JSON.stringify(books));
         }
@@ -978,34 +790,24 @@
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.style.background = isError ? '#e74c3c' : '#27ae60';
-            notification.className = `notification ${isError ? 'error' : ''} show`;
+            notification.className = 'notification show';
             
             setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
+                notification.className = 'notification';
+            }, 3000);
         }
 
         function handleSearch(event) {
             if (event.key === 'Enter') {
-                const query = event.target.value.toLowerCase();
+                const query = event.target.value;
                 if (query.trim()) {
-                    const results = books.filter(book => 
-                        book.title.toLowerCase().includes(query) || 
-                        book.author.toLowerCase().includes(query) ||
-                        (book.category && book.category.toLowerCase().includes(query))
-                    );
-                    
-                    if (results.length > 0) {
-                        showNotification(`🔍 Found ${results.length} books matching "${query}"`);
-                    } else {
-                        showNotification(`No books found matching "${query}"`, true);
-                    }
+                    showNotification(`Searching for: ${query}`);
                 }
                 event.target.value = '';
             }
         }
 
-        // ===== INITIALIZE =====
+        // Initialize
         document.addEventListener('DOMContentLoaded', initializeStore);
 
         // Close modals when clicking outside
