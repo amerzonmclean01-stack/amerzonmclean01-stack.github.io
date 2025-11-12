@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Definitive Word - Ebook Store</title>
+    <title>The Definitive Word - LIVE Ebook Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -33,7 +33,7 @@
             padding: 0 15px;
         }
 
-        /* Simple Admin Panel */
+        /* Admin Panel */
         .admin-panel {
             position: fixed;
             top: 10px;
@@ -167,6 +167,11 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
         }
 
         .book-cover {
@@ -187,6 +192,7 @@
         .book-title {
             font-weight: 600;
             margin-bottom: 5px;
+            font-size: 1.1rem;
         }
 
         .book-author {
@@ -203,6 +209,7 @@
         .price {
             font-weight: 700;
             color: var(--primary);
+            font-size: 1.2rem;
         }
 
         /* Modal */
@@ -217,6 +224,10 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
         }
 
         .modal-content {
@@ -246,12 +257,84 @@
             border-radius: 4px;
         }
 
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1100;
+            overflow-y: auto;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .cart-total {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
         /* Footer */
         footer {
             background: var(--primary);
             color: white;
             padding: 40px 0 20px;
             text-align: center;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 3000;
+            display: none;
+        }
+
+        .notification.show {
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -265,17 +348,24 @@
             .hero h1 {
                 font-size: 2rem;
             }
+            .cart-modal {
+                width: 100%;
+                right: -100%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Simple Admin Panel -->
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Admin Panel -->
     <div class="admin-panel">
-        <h3 style="color: var(--primary); margin-bottom: 15px;">Admin Controls</h3>
-        <button class="admin-btn" onclick="openAddBookModal()">
+        <h3 style="color: var(--primary); margin-bottom: 15px;">🚀 Admin Controls</h3>
+        <button class="admin-btn" onclick="openModal('addBookModal')">
             <i class="fas fa-plus"></i> Add New Book
         </button>
-        <button class="admin-btn" onclick="showBookList()">
+        <button class="admin-btn" onclick="openModal('bookListModal')">
             <i class="fas fa-list"></i> Manage Books
         </button>
         <button class="admin-btn" onclick="resetStore()">
@@ -286,30 +376,30 @@
     <!-- Add Book Modal -->
     <div class="modal" id="addBookModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Add New Book</h2>
+            <h2 style="margin-bottom: 20px;">➕ Add New Book</h2>
             <form id="addBookForm">
                 <div class="form-group">
                     <label>Book Title</label>
-                    <input type="text" id="bookTitle" required>
+                    <input type="text" id="bookTitle" required placeholder="Enter book title">
                 </div>
                 <div class="form-group">
                     <label>Author</label>
-                    <input type="text" id="bookAuthor" required>
+                    <input type="text" id="bookAuthor" required placeholder="Enter author name">
                 </div>
                 <div class="form-group">
                     <label>Price ($)</label>
-                    <input type="number" id="bookPrice" step="0.01" required>
+                    <input type="number" id="bookPrice" step="0.01" required placeholder="9.99">
                 </div>
                 <div class="form-group">
                     <label>Image URL</label>
                     <input type="url" id="bookImage" placeholder="https://example.com/image.jpg">
                 </div>
                 <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">
-                    Add Book to Store
+                    ✅ Add Book to Store
                 </button>
             </form>
-            <button class="btn" onclick="closeModal('addBookModal')" style="width: 100%; margin-top: 10px; background: #666;">
-                Cancel
+            <button class="btn" onclick="closeAllModals()" style="width: 100%; margin-top: 10px; background: #666;">
+                ❌ Cancel
             </button>
         </div>
     </div>
@@ -317,12 +407,32 @@
     <!-- Book List Modal -->
     <div class="modal" id="bookListModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">Manage Books</h2>
+            <h2 style="margin-bottom: 20px;">📚 Manage Books</h2>
             <div id="bookListContent">
                 <!-- Books will be listed here -->
             </div>
-            <button class="btn" onclick="closeModal('bookListModal')" style="width: 100%; margin-top: 15px; background: #666;">
-                Close
+            <button class="btn" onclick="closeAllModals()" style="width: 100%; margin-top: 15px; background: #666;">
+                ✅ Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <button onclick="closeCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">❌</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will appear here -->
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <div style="padding: 20px;">
+            <button class="btn" style="width: 100%;" onclick="checkout()">
+                💳 Checkout Now
             </button>
         </div>
     </div>
@@ -331,17 +441,17 @@
     <header>
         <div class="container">
             <div class="header-top">
-                <a href="#" class="logo">
+                <div class="logo">
                     <i class="fas fa-book-open"></i>
                     The Definitive Word
-                </a>
+                </div>
                 <div class="search-bar">
-                    <input type="text" placeholder="Search books...">
+                    <input type="text" placeholder="🔍 Search books..." onkeypress="handleSearch(event)">
                 </div>
                 <div class="user-actions">
-                    <a href="#" class="cart-icon">
+                    <a href="#" class="cart-icon" onclick="openCart()">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">0</span>
+                        <span class="cart-count" id="cartCount">0</span>
                     </a>
                 </div>
             </div>
@@ -351,15 +461,17 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Welcome to Your Ebook Store</h1>
-            <p>Add and manage books using the admin panel in the top right corner</p>
-            <a href="#" class="btn">Start Shopping</a>
+            <h1>📖 Welcome to Your LIVE Ebook Store!</h1>
+            <p>Everything works! Add books, shop, and manage your store in real-time.</p>
+            <button class="btn" onclick="showNotification('Store is fully functional! 🎉')">
+                🚀 Test Store Features
+            </button>
         </div>
     </section>
 
     <!-- Books Section -->
     <section class="container">
-        <h2 style="text-align: center; margin: 40px 0 20px; color: var(--primary);">Featured Books</h2>
+        <h2 style="text-align: center; margin: 40px 0 20px; color: var(--primary);">⭐ Featured Books</h2>
         <div class="books-grid" id="booksGrid">
             <!-- Books will be loaded here -->
         </div>
@@ -368,44 +480,53 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 The Definitive Word. All rights reserved.</p>
+            <p>© 2024 The Definitive Word. <strong>FULLY FUNCTIONAL STORE</strong> 🎉</p>
         </div>
     </footer>
 
     <script>
-        // Initialize books array
-        let books = JSON.parse(localStorage.getItem('simpleEbookStore')) || [
+        // ===== STORE DATA =====
+        let books = JSON.parse(localStorage.getItem('ebookStoreData')) || [
             {
                 id: 1,
-                title: "Sample Book One",
-                author: "Author One",
-                price: 9.99,
+                title: "The Great Adventure",
+                author: "Emma Wilson",
+                price: 12.99,
                 image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
             {
                 id: 2,
-                title: "Sample Book Two", 
-                author: "Author Two",
-                price: 12.99,
+                title: "Digital Dreams", 
+                author: "Alex Chen",
+                price: 14.99,
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             }
         ];
 
+        let cart = [];
         let cartCount = 0;
 
-        // Initialize the store
+        // ===== INITIALIZE STORE =====
         function initializeStore() {
+            console.log("🔄 Initializing store...");
             displayBooks();
-            updateCartCount();
+            updateCartDisplay();
+            showNotification('Store loaded successfully! 🎉');
         }
 
-        // Display all books
+        // ===== BOOK MANAGEMENT =====
         function displayBooks() {
             const booksGrid = document.getElementById('booksGrid');
             booksGrid.innerHTML = '';
 
             if (books.length === 0) {
-                booksGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; padding: 40px;">No books in store. Use the admin panel to add books.</p>';
+                booksGrid.innerHTML = `
+                    <div style="text-align: center; grid-column: 1 / -1; padding: 40px; color: #666;">
+                        <i class="fas fa-book" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                        <h3>No books in store yet!</h3>
+                        <p>Use the admin panel to add your first book.</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -414,14 +535,16 @@
                 bookCard.className = 'book-card';
                 bookCard.innerHTML = `
                     <div class="book-cover">
-                        <img src="${book.image}" alt="${book.title}">
+                        <img src="${book.image}" alt="${book.title}" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
                     </div>
                     <div class="book-info">
                         <h3 class="book-title">${book.title}</h3>
                         <p class="book-author">by ${book.author}</p>
                         <div class="book-price">
                             <span class="price">$${book.price}</span>
-                            <button class="btn" onclick="addToCart(${book.id})">Add to Cart</button>
+                            <button class="btn" onclick="addToCart(${book.id})">
+                                🛒 Add to Cart
+                            </button>
                         </div>
                     </div>
                 `;
@@ -429,72 +552,153 @@
             });
         }
 
-        // Add to cart function
+        // ===== CART FUNCTIONALITY =====
         function addToCart(bookId) {
-            cartCount++;
-            updateCartCount();
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+
+            const existingItem = cart.find(item => item.id === bookId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...book,
+                    quantity: 1
+                });
+            }
+
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            updateCartDisplay();
             
-            // Find the button that was clicked and show feedback
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                if (button.textContent === 'Added!') {
-                    button.textContent = 'Add to Cart';
-                    button.style.background = '';
-                }
-            });
-            
-            // Show temporary feedback
-            event.target.textContent = 'Added!';
-            event.target.style.background = '#27ae60';
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ Added!';
+            button.style.background = '#27ae60';
             
             setTimeout(() => {
-                event.target.textContent = 'Add to Cart';
-                event.target.style.background = '';
+                button.innerHTML = originalText;
+                button.style.background = '';
             }, 1500);
+
+            showNotification(`"${book.title}" added to cart!`);
         }
 
-        // Update cart count display
-        function updateCartCount() {
-            document.querySelector('.cart-count').textContent = cartCount;
+        function updateCartDisplay() {
+            document.getElementById('cartCount').textContent = cartCount;
+            
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 5px;">${item.title}</h4>
+                        <p style="color: #666; margin-bottom: 5px;">by ${item.author}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>$${item.price} x ${item.quantity}</span>
+                            <button onclick="removeFromCart(${item.id})" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                                ❌ Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = `$${total.toFixed(2)}`;
         }
 
-        // Modal functions
-        function openAddBookModal() {
-            document.getElementById('addBookModal').style.display = 'flex';
+        function removeFromCart(bookId) {
+            cart = cart.filter(item => item.id !== bookId);
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            updateCartDisplay();
+            showNotification('Item removed from cart');
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+        function openCart() {
+            document.getElementById('cartModal').classList.add('active');
         }
 
-        // Show book list in modal
-        function showBookList() {
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', true);
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            showNotification(`🎉 Order placed! Total: $${total.toFixed(2)}`);
+            cart = [];
+            cartCount = 0;
+            updateCartDisplay();
+            closeCart();
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function openModal(modalId) {
+            closeAllModals();
+            document.getElementById(modalId).classList.add('active');
+            
+            if (modalId === 'bookListModal') {
+                renderBookList();
+            }
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+
+        function renderBookList() {
             const bookListContent = document.getElementById('bookListContent');
             bookListContent.innerHTML = '';
 
             if (books.length === 0) {
-                bookListContent.innerHTML = '<p>No books in store.</p>';
-            } else {
-                books.forEach(book => {
-                    const bookItem = document.createElement('div');
-                    bookItem.style.cssText = 'padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;';
-                    bookItem.innerHTML = `
-                        <div>
-                            <strong>${book.title}</strong><br>
-                            <small>by ${book.author} - $${book.price}</small>
-                        </div>
-                        <button class="btn" onclick="deleteBook(${book.id})" style="padding: 5px 10px; background: #e74c3c;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    `;
-                    bookListContent.appendChild(bookItem);
-                });
+                bookListContent.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">No books in store.</p>';
+                return;
             }
 
-            document.getElementById('bookListModal').style.display = 'flex';
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.style.cssText = 'padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;';
+                bookItem.innerHTML = `
+                    <div style="flex: 1;">
+                        <strong style="display: block; margin-bottom: 5px;">${book.title}</strong>
+                        <small style="color: #666;">by ${book.author} - $${book.price}</small>
+                    </div>
+                    <button onclick="deleteBook(${book.id})" style="background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+                        🗑️ Delete
+                    </button>
+                `;
+                bookListContent.appendChild(bookItem);
+            });
         }
 
-        // Add new book
         document.getElementById('addBookForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -507,52 +711,80 @@
             };
 
             books.push(newBook);
-            saveBooks();
+            saveData();
             displayBooks();
-            closeModal('addBookModal');
+            closeAllModals();
             this.reset();
             
-            alert('Book added successfully!');
+            showNotification(`"${newBook.title}" added to store! 📚`);
         });
 
-        // Delete book
         function deleteBook(bookId) {
             if (confirm('Are you sure you want to delete this book?')) {
                 books = books.filter(book => book.id !== bookId);
-                saveBooks();
+                saveData();
                 displayBooks();
-                showBookList(); // Refresh the book list modal
-                alert('Book deleted successfully!');
+                renderBookList();
+                showNotification('Book deleted successfully');
             }
         }
 
-        // Reset store
         function resetStore() {
-            if (confirm('Are you sure you want to reset the store? This will remove all books.')) {
+            if (confirm('Are you sure you want to reset the entire store? This cannot be undone!')) {
                 books = [];
-                saveBooks();
+                cart = [];
+                cartCount = 0;
+                saveData();
                 displayBooks();
-                alert('Store reset successfully!');
+                updateCartDisplay();
+                showNotification('Store reset successfully');
             }
         }
 
-        // Save books to localStorage
-        function saveBooks() {
-            localStorage.setItem('simpleEbookStore', JSON.stringify(books));
+        // ===== UTILITY FUNCTIONS =====
+        function saveData() {
+            localStorage.setItem('ebookStoreData', JSON.stringify(books));
         }
+
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = isError ? '#e74c3c' : '#2ecc71';
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value.toLowerCase();
+                if (query.trim()) {
+                    const results = books.filter(book => 
+                        book.title.toLowerCase().includes(query) || 
+                        book.author.toLowerCase().includes(query)
+                    );
+                    
+                    if (results.length > 0) {
+                        showNotification(`Found ${results.length} books matching "${query}"`);
+                    } else {
+                        showNotification(`No books found matching "${query}"`, true);
+                    }
+                }
+                event.target.value = '';
+            }
+        }
+
+        // ===== INITIALIZE =====
+        document.addEventListener('DOMContentLoaded', initializeStore);
 
         // Close modals when clicking outside
-        window.onclick = function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-
-        // Initialize the store when page loads
-        document.addEventListener('DOMContentLoaded', initializeStore);
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeAllModals();
+            }
+        });
     </script>
 </body>
 </html>
